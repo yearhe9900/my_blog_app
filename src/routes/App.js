@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Row, Col, Card } from 'antd';
+import { connect } from 'dva';
 const { Header, Content } = Layout;
+
 function see({ item, key, selectedKeys }) {
-  console.log(item)
-  console.log(key)
-  console.log(selectedKeys)
+  // console.log(item)
+  // console.log(key)
+  // console.log(selectedKeys)
+  
 };
 
 class App extends Component {
@@ -13,9 +16,9 @@ class App extends Component {
       <Layout>
         <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
           <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']} style={{ lineHeight: '64px' }} onSelect={see}>
-            <Menu.Item key="1">nav 1</Menu.Item>
-            <Menu.Item key="2">nav 2</Menu.Item>
-            <Menu.Item key="3">nav 3</Menu.Item>
+            <Menu.Item key="1">学无止境</Menu.Item>
+            <Menu.Item key="2">个人日记</Menu.Item>
+            <Menu.Item key="3">关于我</Menu.Item>
           </Menu>
         </Header>
         <Content style={{ marginTop: 64 }}>
@@ -38,4 +41,10 @@ class App extends Component {
   }
 }
 
-export default App;
+//connect参数之一,获取参数 , state为接受的参数
+const mapStateToProps = (state) => {
+  return {
+    app:state.app
+  }
+}
+export default connect(mapStateToProps)(App)

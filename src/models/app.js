@@ -3,7 +3,7 @@ export default {
     namespace: 'app',
 
     state: {
-        name: '这是app的model'
+        item: 1
     },
 
     subscriptions: {
@@ -15,7 +15,14 @@ export default {
     },
 
     reducers: {
-
+        menuItemChange(state, action) {
+            console.log(state)
+            console.log(action)
+            return {
+                ...state,
+                item: action.item
+            }
+        }
     },
 
 };
