@@ -21,7 +21,7 @@ class BasicLayout extends Component {
     return (
       <Layout>
         <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']} style={{ lineHeight: '64px' }} onSelect={this.changeContent}>
+          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={this.props.global.item} style={{ lineHeight: '64px' }} onSelect={this.changeContent}>
             <Menu.Item key="1">学无止境</Menu.Item>
             <Menu.Item key="2">个人日记</Menu.Item>
             <Menu.Item key="3">关于我</Menu.Item>
