@@ -1,6 +1,6 @@
 export default {
 
-    namespace: 'app',
+    namespace: 'global',
 
     state: {
         item: ["1"]
