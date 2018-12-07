@@ -3,7 +3,7 @@ export default {
     namespace: 'app',
 
     state: {
-        item: 1
+        item: ["1"]
     },
 
     subscriptions: {
@@ -11,16 +11,19 @@ export default {
     },
 
     effects: {
-
+        *changeMenuItem({ payload }, { call, put }) {
+            yield put({
+                type: 'menuItemChange',   //这个就是调用reducers中的方法进行跟新当前命名空间state的数据
+                payload:payload
+             });
+        }
     },
 
     reducers: {
-        menuItemChange(state, action) {
-            console.log(state)
-            console.log(action)
+        menuItemChange(state, {payload}) {
             return {
                 ...state,
-                item: action.item
+                item: payload.item
             }
         }
     },
