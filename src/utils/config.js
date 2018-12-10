@@ -1,21 +1,29 @@
 
 const menuGlobal=[
     {
-        id:'basiclayout',
+        id:'blog',
         pid:'0',
-        name:'一位不爱写代码的程序员',
-        icon:'user',
-        path: '/',
-        component: () => import('../layouts/BasicLayout'),
-    }, 
+        name:'学无止境',
+        icon:'blog',
+        path: '/blog',
+        component: () => import('../components/contents/BlogContent'),
+    },
     {
-        id:'aboutme',
+        id:'diary',
         pid:'1',
+        name:'个人日记',
+        icon:'diary',
+        path: '/diary',
+        component: () => import('../components/contents/DiaryContent'),
+    },  
+    {
+        id:'about',
+        pid:'2',
         name:'关于我',
-        icon:'user',
-        path: '/aboutme',
+        icon:'about',
+        path: '/about',
         component: () => import('../components/contents/AboutMe'),
-    }, 
+    },
   ];
   
 export default {

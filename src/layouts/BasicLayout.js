@@ -1,34 +1,44 @@
 import React, { Component } from 'react';
 import { Layout, Menu } from 'antd';
 import { connect } from 'dva';
-import BasicContent from '../components/contents/BasicContent';
+import { Link } from 'dva/router';
+
 const { Header, Content } = Layout;
 
 class BasicLayout extends Component {
   constructor(props) {
-    super(props);
-    this.changeContent = this.changeContent.bind(this);
+    super(props)
+    this.changeMenuItem = this.changeMenuItem.bind(this.changeMenuItem)
   }
 
-  changeContent({ item, key, selectedKeys }) {
-    this.props.dispatch({
-      type: "global/changeMenuItem",
-      payload: { item: selectedKeys },
-    })
-  };
+  componentWillMount() {
+    if (this.props.location.pathname === "/blog") {
+      localStorage.setItem("menuItem", 1);
+    }
+    else if (this.props.location.pathname === "/diary") {
+      localStorage.setItem("menuItem", 2);
+    }
+    else if (this.props.location.pathname === "/about") {
+      localStorage.setItem("menuItem", 3);
+    }
+  }
+
+  changeMenuItem({ item, key, selectedKeys }) {
+    localStorage.setItem("menuItem", selectedKeys);
+  }
 
   render() {
     return (
       <Layout>
         <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={this.props.global.item} style={{ lineHeight: '64px' }} onSelect={this.changeContent}>
-            <Menu.Item key="1">学无止境</Menu.Item>
-            <Menu.Item key="2">个人日记</Menu.Item>
-            <Menu.Item key="3">关于我</Menu.Item>
+          <Menu theme="dark" mode="horizontal" selectedKeys={[localStorage.getItem("menuItem") === null ? "1" : localStorage.getItem("menuItem")]} onSelect={this.changeMenuItem} style={{ lineHeight: '64px' }} >
+            <Menu.Item key="1"><Link to="/blog">学无止境</Link></Menu.Item>
+            <Menu.Item key="2"><Link to="/diary">个人日记</Link></Menu.Item>
+            <Menu.Item key="3"><Link to="/about">关于我</Link></Menu.Item>
           </Menu>
         </Header>
         <Content style={{ marginTop: 64 }}>
-          <BasicContent />
+          {this.props.children}
         </Content>
       </Layout>
     );
