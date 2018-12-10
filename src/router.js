@@ -1,9 +1,10 @@
 import React from 'react';
-import { Router, Route, Switch } from 'dva/router';
+import { Router, Route, Switch, Redirect } from 'dva/router';
 import dynamic from 'dva/dynamic'
 
 import { config } from './utils'
 import BasicLayout from './layouts/BasicLayout';
+
 const { menuGlobal } = config
 
 function RouterConfig({ history, app }) {
@@ -11,6 +12,7 @@ function RouterConfig({ history, app }) {
     <Router history={history}>
       <Switch>
         <BasicLayout>
+          <Route path='/' exact render={() => (<Redirect to='/blog' />)} />
           {
             menuGlobal.map(({ path, ...dynamics }, index) => (
               <Route
