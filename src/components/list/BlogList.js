@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { List, Avatar, Icon } from 'antd';
 import BlogTags from '../tags/BlogTags'
+import { Link } from 'dva/router';
 
 const listData = [];
 for (let i = 0; i < 23; i++) {
     listData.push({
-        href: 'http://localhost:3000/diary',
+        href: `/blog/content/${i}/v1.0`,
         title: `ant design part ${i}`,
         avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-        description: <BlogTags tags={[i]} />,
+        description: <BlogTags tags={[i, 0]} />,
         content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
     });
 }
@@ -29,7 +30,7 @@ export default class BlogList extends Component {
                     onChange: (page) => {
                         console.log(page);
                     },
-                    pageSize: 4,
+                    pageSize: 10,
                 }}
                 dataSource={listData}
                 renderItem={item => (
@@ -40,7 +41,7 @@ export default class BlogList extends Component {
                     >
                         <List.Item.Meta
                             avatar={<Avatar src={item.avatar} />}
-                            title={<a href={item.href}>{item.title}</a>}
+                            title={<Link to={item.href}>{item.title}</Link>}
                             description={item.description}
                         />
                         {item.content}

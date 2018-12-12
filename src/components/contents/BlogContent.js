@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, BackTop } from 'antd';
+import { Row, Col, Card } from 'antd';
 import BlogList from '../list/BlogList';
 
 export default class BlogContent extends Component {
   render() {
     return (
       <div>
-        <BackTop />
         <Row gutter={16} style={{ marginleft: '-8px', marginRight: 0 }}>
           <div style={{ background: '#ECECEC', padding: '20px' }}>
             <Col span={18}>

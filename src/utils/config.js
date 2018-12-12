@@ -24,6 +24,14 @@ const menuGlobal=[
         path: '/about',
         component: () => import('../components/contents/AboutMe'),
     },
+    {
+        id:'blogcontent',
+        pid:'3',
+        name:'关于我',
+        icon:'blog',
+        path: '/blog/content/:id/:version',
+        component: () => import('../components/blog/BlogContent'),
+    },
   ];
   
 export default {

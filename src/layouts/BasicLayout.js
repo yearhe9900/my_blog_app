@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, BackTop } from 'antd';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 
@@ -38,6 +38,7 @@ class BasicLayout extends Component {
           </Menu>
         </Header>
         <Content style={{ marginTop: 64 }}>
+          <BackTop />
           {this.props.children}
         </Content>
       </Layout>
