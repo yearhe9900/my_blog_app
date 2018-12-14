@@ -6,6 +6,7 @@ const menuGlobal=[
         name:'学无止境',
         icon:'blog',
         path: '/blog',
+        models: () => [import('../models/bloglist')],
         component: () => import('../components/contents/BlogContent'),
     },
     {

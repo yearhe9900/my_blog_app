@@ -8,7 +8,7 @@ const { Header, Content } = Layout;
 class BasicLayout extends Component {
   constructor(props) {
     super(props)
-    this.changeMenuItem = this.changeMenuItem.bind(this.changeMenuItem)
+    this.changeMenuItem = this.changeMenuItem.bind(this)
   }
 
   componentWillMount() {
