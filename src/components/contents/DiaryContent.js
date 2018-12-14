@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Row, Col, Card } from 'antd';
-import BlogList from '../list/BlogList';
 
 export default class DiaryContent extends Component {
   render() {
@@ -9,7 +8,7 @@ export default class DiaryContent extends Component {
         <div style={{ background: '#ECECEC', padding: '20px' }}>
           <Col span={18}>
             <Card title="个人日记" bordered={false} style={{ minHeight: 865 }}>
-              <BlogList />
+            
             </Card>
           </Col>
           <Col span={6} >
