@@ -24,7 +24,6 @@ const IconText = ({ type, text }) => (
 );
 
 class BlogList extends Component {
-
     //获取新的props事件
     componentWillReceiveProps(nextprops) {
         console.log(nextprops)

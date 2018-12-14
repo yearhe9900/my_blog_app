@@ -20,7 +20,7 @@ export default class BlogContent extends Component {
             </Card>
           </Col>
           <Col span={5} >
-            <Card bordered={true}>
+            <Card bordered={true} style={{ position: 'fixed' }}>
               <h4 style={{ margin: '16px 0' }}>标题查询:</h4>
               <Search
                 placeholder="输入要搜索的文章标题"
@@ -30,7 +30,14 @@ export default class BlogContent extends Component {
               <h4 style={{ margin: '16px 0' }}>时间查询:</h4>
               <RangePicker onChange={onChange} />
               <h4 style={{ margin: '16px 0' }}>标签查询:</h4>
-              <BlogTags listTags={[{ color: '#f50', text: '#f50' }, { color: '#2db7f5', text: '#2db7f5' }, { color: '#87d068', text: '#87d068' }, { color: '#108ee9', text: '#108ee9' }]} style={{ marginBottom: 8 }} />
+              <BlogTags
+                listTags={[
+                  { color: '#f50', text: '#f50' },
+                  { color: '#2db7f5', text: '#2db7f5' },
+                  { color: '#87d068', text: '#87d068' },
+                  { color: '#108ee9', text: '#108ee9' }]}
+                style={{ marginBottom: 8 }}
+              />
             </Card>
           </Col>
         </div>
