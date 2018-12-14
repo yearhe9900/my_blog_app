@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
-import { Row, Col, Card } from 'antd';
+import { Row, Col, Card, Input, DatePicker } from 'antd';
 import BlogList from '../list/BlogList';
+const Search = Input.Search;
+const { RangePicker } = DatePicker;
+
+function onChange(date, dateString) {
+  console.log(date, dateString);
+}
 
 export default class BlogContent extends Component {
   render() {
@@ -14,8 +20,12 @@ export default class BlogContent extends Component {
           </Col>
           <Col span={6} >
             <Card title="Card title" bordered={true}>
-              <p>Card content</p>
-              <p>Card content</p>
+              <Search
+                placeholder="输入要搜索的文章名称"
+                onSearch={value => console.log(value)}
+                enterButton
+              />
+              <RangePicker onChange={onChange} style={{ marginTop: 10 }} />
               <p>Card content</p>
             </Card>
           </Col>

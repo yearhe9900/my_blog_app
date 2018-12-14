@@ -29,7 +29,7 @@ const menuGlobal=[
         pid:'3',
         name:'关于我',
         icon:'blog',
-        path: '/blog/content/:id/:version',
+        path: '/blog/content/:id',
         component: () => import('../components/blog/BlogContent'),
     },
   ];

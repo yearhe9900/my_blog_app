@@ -6,7 +6,7 @@ import { Link } from 'dva/router';
 const listData = [];
 for (let i = 0; i < 23; i++) {
     listData.push({
-        href: `/blog/content/${i}/v1.0`,
+        href: `/blog/content/${i}`,
         title: `ant design part ${i}`,
         avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
         description: <BlogTags tags={[i, 0]} />,

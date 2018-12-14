@@ -6,19 +6,10 @@ function info() {
   Modal.info({
     title: '你要当真我就不好意思了',
     content: (
-      <Card
-        hoverable={false}
-        style={{ width: 240 }}
-        cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
-      >
-        <Meta
-          title="这个不是我"
-        />
-      </Card>
+     <div>111</div>
     )
   });
 }
-
 
 export default class AboutMe extends Component {
   render() {
@@ -35,7 +26,7 @@ export default class AboutMe extends Component {
                     cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
                   >
                     <Meta
-                      title="这个不是我"
+                      description="这个不是我"
                     />
                   </Card>
                 </Col>

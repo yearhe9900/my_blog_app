@@ -16,7 +16,6 @@ export default class DiaryContent extends Component {
             <Card title="Card title" bordered={true}>
               <p>Card content</p>
               <p>Card content</p>
-              <p>Card content</p>
             </Card>
           </Col>
         </div>
