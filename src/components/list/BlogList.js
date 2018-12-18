@@ -5,16 +5,6 @@ import { Link } from 'dva/router';
 import { connect } from 'dva';
 
 const listData = [];
-for (let i = 0; i < 23; i++) {
-    listData.push({
-        href: `/blog/content/${i}`,
-        title: `这是博客标题 ${i}`,
-        avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-        description: <BlogTags listTags={[{ color: '#f50', text: '#f50' }, { color: '#2db7f5', text: '#2db7f5' }, { color: '#87d068', text: '#87d068' }, { color: '#108ee9', text: '#108ee9' }]} />,
-        content: '这是博客的内容摘选',
-        blogDate: '2018-12-01 12:11:33'
-    });
-}
 
 const IconText = ({ type, text }) => (
     <span>
@@ -24,9 +14,24 @@ const IconText = ({ type, text }) => (
 );
 
 class BlogList extends Component {
+
+    componentDidMount(){
+        this.props.dispatch({type:"bloglist/getBlogList"})
+    }
+
     //获取新的props事件
     componentWillReceiveProps(nextprops) {
-        console.log(nextprops)
+        nextprops.bloglist.listData.forEach(element => {
+            listData.push({
+                href: `/blog/content/${element.id}`,
+                title: element.title,
+                avatar: element.avatar,
+                description: <BlogTags listTags={element.description} />,
+                content: element.content,
+                blogDate: element.blogDate,
+                logoSrc: element.logoSrc
+            });
+        });
     }
 
     render() {
@@ -50,7 +55,7 @@ class BlogList extends Component {
                     <List.Item
                         key={item.title}
                         actions={[<IconText type="star-o" text="156" />, <IconText type="like-o" text="156" />, <IconText type="message" text="2" />, <IconText type="clock-circle" text={item.blogDate} />]}
-                        extra={<img width={272} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />}
+                        extra={<img width={272} alt="logo" src={item.logoSrc} />}
                     >
                         <List.Item.Meta
                             avatar={<Avatar src={item.avatar} />}
