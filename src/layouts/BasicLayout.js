@@ -32,7 +32,7 @@ class BasicLayout extends Component {
       <Layout>
         <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
           <Menu theme="dark" mode="horizontal" selectedKeys={[localStorage.getItem("menuItem") === null ? "1" : localStorage.getItem("menuItem")]} onSelect={this.changeMenuItem} style={{ lineHeight: '64px' }} >
-            <Menu.Item key="1"><Link to="/blog">学无止境</Link></Menu.Item>
+            <Menu.Item key="1"><Link to="/blog">学海无涯</Link></Menu.Item>
             <Menu.Item key="2"><Link to="/diary">个人日记</Link></Menu.Item>
             <Menu.Item key="3"><Link to="/about">关于我</Link></Menu.Item>
           </Menu>
