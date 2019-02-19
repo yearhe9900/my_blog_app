@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { List, Icon } from 'antd';
-import BlogTags from '../tags/BlogTags'
 import { Link } from 'dva/router';
 import { connect } from 'dva';
-
-const listData = [];
+import moment from 'moment';
+import 'moment/locale/zh-cn'
 
 const IconText = ({ type, text }) => (
     <span>
@@ -14,51 +13,36 @@ const IconText = ({ type, text }) => (
 );
 
 class BlogList extends Component {
-
     componentDidMount() {
-        this.props.dispatch({ type: "bloglist/getBlogList" })
+       this.reload()
     }
 
-    //获取新的props事件
-    componentWillReceiveProps(nextprops) {
-        nextprops.bloglist.listData.forEach(element => {
-            listData.push({
-                href: `/blog/content/${element.id}`,
-                title: element.title,
-                avatar: element.avatar,
-                description: <BlogTags listTags={element.description} />,
-                content: element.content,
-                blogDate: element.blogDate,
-                logoSrc: element.logoSrc
-            });
-        });
+    reload(){
+        const {dispatch,bloglist} = this.props;
+        dispatch({ type: "bloglist/getBlogList",payload:{pageNo:bloglist.pageNo,pageSize:bloglist.pageSize}})
     }
 
     render() {
+        const {dispatch,bloglist} =this.props;
         return (
             <List itemLayout="vertical"
                 size="large"
                 pagination={{
-                    onChange: (page, pageSize) => {
-                        this.props.dispatch({
-                            type: 'bloglist/changePagination',
-                            payload: {
-                                page: page,
-                                pageSize: pageSize
-                            }
-                        })
+                    onChange: (pageNo, pageSize) => {
+                        dispatch({ type: "bloglist/getBlogList",payload:{pageNo:pageNo,pageSize:pageSize}})
                     },
-                    pageSize: this.props.bloglist.pageSize,
+                    pageSize: bloglist.pageSize,
+                    total:bloglist.total
                 }}
-                dataSource={listData}
+                dataSource={bloglist.listData}
                 renderItem={item => (
                     <List.Item
                         key={item.title}
-                        actions={[<IconText type="like-o" text="156" />, <IconText type="clock-circle" text={item.blogDate} />]}
-                        extra={<img width={272} alt="logo" src={item.logoSrc} />}
+                        actions={[<IconText type="like-o" text={item.commendation} />, <IconText type="clock-circle" text={moment(item.cdt).format('YYYY-MM-DD HH:mm:ss')} />]}
+                        extra={<img width={272} alt="logo" src={item.logo} />}
                     >
                         <List.Item.Meta
-                            title={<Link to={item.href}>{item.title}</Link>}
+                            title={<Link to={`/blog/content/${item.id}`}>{item.title}</Link>}
                             description={item.description}
                         />
                         {item.content}

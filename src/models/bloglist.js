@@ -3,8 +3,9 @@ import { querylist } from '../services/blogService';
 export default {
     namespace: 'bloglist',
     state: {
-        page: 1,
+        pageNo: 1,
         pageSize: 10,
+        total:0,
         listData:[],
     },
 
@@ -20,7 +21,7 @@ export default {
             });
         },
         *getBlogList({ payload }, { call, put }) {
-          var data = yield call(querylist);
+          var data = yield call(querylist,payload);
             yield put({
                 type: 'setBlogList',   //这个就是调用reducers中的方法进行跟新当前命名空间state的数据
                 payload: data
@@ -32,14 +33,15 @@ export default {
         paginationChange(state, { payload }) {
             return {
                 ...state,
-                page: payload.page,
+                pageNo: payload.pageNo,
                 pageSize: payload.pageSize
             }
         },
         setBlogList(state, { payload }) {
             return {
                 ...state,
-                listData:payload.data
+                listData:payload.data.output,
+                total:payload.data.total
             }
         }
     },

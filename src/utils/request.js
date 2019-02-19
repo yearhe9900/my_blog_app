@@ -23,6 +23,14 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, options) {
+    if(options)
+    {
+        options.body =JSON.stringify(options.body)
+    }
+    options.headers = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json; charset=utf-8'
+      };
     return fetch(url, { ...options })
         .then(checkStatus)
         .then(parseJSON)

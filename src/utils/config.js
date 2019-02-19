@@ -28,7 +28,7 @@ const menuGlobal=[
     {
         id:'blogcontent',
         pid:'3',
-        name:'关于我',
+        name:'内容',
         icon:'blog',
         path: '/blog/content/:id',
         component: () => import('../components/blog/BlogContent'),
