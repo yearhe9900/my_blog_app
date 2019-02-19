@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { List, Avatar, Icon } from 'antd';
+import { List, Icon } from 'antd';
 import BlogTags from '../tags/BlogTags'
 import { Link } from 'dva/router';
 import { connect } from 'dva';
@@ -15,8 +15,8 @@ const IconText = ({ type, text }) => (
 
 class BlogList extends Component {
 
-    componentDidMount(){
-        this.props.dispatch({type:"bloglist/getBlogList"})
+    componentDidMount() {
+        this.props.dispatch({ type: "bloglist/getBlogList" })
     }
 
     //获取新的props事件
@@ -54,11 +54,10 @@ class BlogList extends Component {
                 renderItem={item => (
                     <List.Item
                         key={item.title}
-                        actions={[<IconText type="star-o" text="156" />, <IconText type="like-o" text="156" />, <IconText type="message" text="2" />, <IconText type="clock-circle" text={item.blogDate} />]}
+                        actions={[<IconText type="like-o" text="156" />, <IconText type="clock-circle" text={item.blogDate} />]}
                         extra={<img width={272} alt="logo" src={item.logoSrc} />}
                     >
                         <List.Item.Meta
-                            avatar={<Avatar src={item.avatar} />}
                             title={<Link to={item.href}>{item.title}</Link>}
                             description={item.description}
                         />

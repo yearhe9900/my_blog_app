@@ -8,7 +8,7 @@ export default class DiaryContent extends Component {
         <div style={{ background: '#ECECEC', padding: '20px' }}>
           <Col span={18}>
             <Card title="个人日记" bordered={false} style={{ minHeight: 865 }}>
-             
+
             </Card>
           </Col>
           <Col span={6} >
