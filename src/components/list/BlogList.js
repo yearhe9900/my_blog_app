@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { List, Icon } from 'antd';
+import { List, Icon, Tag } from 'antd';
 import { Link } from 'dva/router';
 import { connect } from 'dva';
 import moment from 'moment';
@@ -14,25 +14,25 @@ const IconText = ({ type, text }) => (
 
 class BlogList extends Component {
     componentDidMount() {
-       this.reload()
+        this.reload()
     }
 
-    reload(){
-        const {dispatch,bloglist} = this.props;
-        dispatch({ type: "bloglist/getBlogList",payload:{pageNo:bloglist.pageNo,pageSize:bloglist.pageSize}})
+    reload() {
+        const { dispatch, bloglist } = this.props;
+        dispatch({ type: "bloglist/getBlogList", payload: { pageNo: bloglist.pageNo, pageSize: bloglist.pageSize } })
     }
 
     render() {
-        const {dispatch,bloglist} =this.props;
+        const { dispatch, bloglist } = this.props;
         return (
             <List itemLayout="vertical"
                 size="large"
                 pagination={{
                     onChange: (pageNo, pageSize) => {
-                        dispatch({ type: "bloglist/getBlogList",payload:{pageNo:pageNo,pageSize:pageSize}})
+                        dispatch({ type: "bloglist/getBlogList", payload: { pageNo: pageNo, pageSize: pageSize } })
                     },
                     pageSize: bloglist.pageSize,
-                    total:bloglist.total
+                    total: bloglist.total
                 }}
                 dataSource={bloglist.listData}
                 renderItem={item => (
@@ -42,10 +42,12 @@ class BlogList extends Component {
                         extra={<img width={272} alt="logo" src={item.logo} />}
                     >
                         <List.Item.Meta
-                            title={<Link to={`/blog/content/${item.id}`}>{item.title}</Link>}
-                            description={item.description}
+                            title={<Link to={`/blog/content/${item.id}`} style={{ fontSize: 22, fontWeight: "bold" }}>{item.title}</Link>}
+                            description={item.tags.map(function (tag) {
+                                return <Tag key={tag.key} color={tag.color}>{tag.name}</Tag>
+                            })}
                         />
-                        {item.content}
+                        {item.description}
                     </List.Item>
                 )}
             />)

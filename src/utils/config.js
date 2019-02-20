@@ -31,6 +31,7 @@ const menuGlobal=[
         name:'内容',
         icon:'blog',
         path: '/blog/content/:id',
+        models: () => [import('../models/blog')],
         component: () => import('../components/blog/BlogContent'),
     },
   ];
