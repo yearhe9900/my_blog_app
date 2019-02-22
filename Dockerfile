@@ -1,4 +1,4 @@
-FROM node
+FROM circleci/node:latest-browsers
 
 WORKDIR /usr/src/app/
 USER root
@@ -7,6 +7,6 @@ RUN yarn
 
 COPY ./ ./
 
-EXPOSE 3000
+EXPOSE 3001
 
 CMD ["yarn", "start"]

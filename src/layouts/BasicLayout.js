@@ -1,55 +1,221 @@
-import React, { Component } from 'react';
-import { Layout, Menu, BackTop } from 'antd';
+// import React, { Suspense } from 'react';
+import React from 'react';
+import { Layout, BackTop } from 'antd';
+import DocumentTitle from 'react-document-title';
+import isEqual from 'lodash/isEqual';
+import memoizeOne from 'memoize-one';
 import { connect } from 'dva';
-import { Link } from 'dva/router';
+import { ContainerQuery } from 'react-container-query';
+import classNames from 'classnames';
+import pathToRegexp from 'path-to-regexp';
+import Media from 'react-media';
+import { formatMessage } from 'umi/locale';
+import Authorized from '@/utils/Authorized';
+import logo from '../assets/logo.svg';
+import Footer from './Footer';
+import Header from './Header';
+import Context from './MenuContext';
+import Exception403 from '../pages/Exception/403';
+import SiderMenu from '@/components/SiderMenu';
+import styles from './BasicLayout.less';
 
-const { Header, Content } = Layout;
+const { Content } = Layout;
 
-class BasicLayout extends Component {
+const query = {
+  'screen-xs': {
+    maxWidth: 575,
+  },
+  'screen-sm': {
+    minWidth: 576,
+    maxWidth: 767,
+  },
+  'screen-md': {
+    minWidth: 768,
+    maxWidth: 991,
+  },
+  'screen-lg': {
+    minWidth: 992,
+    maxWidth: 1199,
+  },
+  'screen-xl': {
+    minWidth: 1200,
+    maxWidth: 1599,
+  },
+  'screen-xxl': {
+    minWidth: 1600,
+  },
+};
+
+class BasicLayout extends React.PureComponent {
   constructor(props) {
-    super(props)
-    this.changeMenuItem = this.changeMenuItem.bind(this)
+    super(props);
+    this.getPageTitle = memoizeOne(this.getPageTitle);
+    this.matchParamsPath = memoizeOne(this.matchParamsPath, isEqual);
   }
 
-  componentWillMount() {
-    if (this.props.location.pathname === "/blog") {
-      localStorage.setItem("menuItem", 1);
-    }
-    else if (this.props.location.pathname === "/diary") {
-      localStorage.setItem("menuItem", 2);
-    }
-    else if (this.props.location.pathname === "/about") {
-      localStorage.setItem("menuItem", 3);
+  componentDidMount() {
+    const {
+      dispatch,
+      route: { routes, authority },
+    } = this.props;
+    dispatch({
+      type: 'setting/getSetting',
+    });
+    dispatch({
+      type: 'menu/getMenuData',
+      payload: { routes, authority },
+    });
+    dispatch({
+      type: 'user/fetchCurrent',
+    });
+  }
+
+  componentDidUpdate(preProps) {
+    // After changing to phone mode,
+    // if collapsed is true, you need to click twice to display
+    const { collapsed, isMobile } = this.props;
+    if (isMobile && !preProps.isMobile && !collapsed) {
+      this.handleMenuCollapse(false);
     }
   }
 
-  changeMenuItem({ item, key, selectedKeys }) {
-    localStorage.setItem("menuItem", selectedKeys);
+  getContext() {
+    const { location, breadcrumbNameMap } = this.props;
+    return {
+      location,
+      breadcrumbNameMap,
+    };
   }
+
+  matchParamsPath = (pathname, breadcrumbNameMap) => {
+    const pathKey = Object.keys(breadcrumbNameMap).find(key => pathToRegexp(key).test(pathname));
+    return breadcrumbNameMap[pathKey];
+  };
+
+  getRouterAuthority = (pathname, routeData) => {
+    let routeAuthority = ['noAuthority'];
+    const getAuthority = (key, routes) => {
+      routes.map(route => {
+        if (route.path === key) {
+          routeAuthority = route.authority;
+        } else if (route.routes) {
+          routeAuthority = getAuthority(key, route.routes);
+        }
+        return route;
+      });
+      return routeAuthority;
+    };
+    return getAuthority(pathname, routeData);
+  };
+
+  getPageTitle = (pathname, breadcrumbNameMap) => {
+    const currRouterData = this.matchParamsPath(pathname, breadcrumbNameMap);
+
+    if (!currRouterData) {
+      return '熊本熊';
+    }
+    const pageName = formatMessage({
+      id: currRouterData.locale || currRouterData.name,
+      defaultMessage: currRouterData.name,
+    });
+
+    return `${pageName} - 熊本熊`;
+  };
+
+  getLayoutStyle = () => {
+    const { fixSiderbar, isMobile, collapsed, layout } = this.props;
+    if (fixSiderbar && layout !== 'topmenu' && !isMobile) {
+      return {
+        paddingLeft: collapsed ? '80px' : '256px',
+      };
+    }
+    return null;
+  };
+
+  handleMenuCollapse = collapsed => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'global/changeLayoutCollapsed',
+      payload: collapsed,
+    });
+  };
 
   render() {
-    return (
+    const {
+      navTheme,
+      layout: PropsLayout,
+      children,
+      location: { pathname },
+      isMobile,
+      menuData,
+      breadcrumbNameMap,
+      route: { routes },
+      fixedHeader,
+    } = this.props;
+
+    const isTop = PropsLayout === 'topmenu';
+    const routerConfig = this.getRouterAuthority(pathname, routes);
+    const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
+    const layout = (
       <Layout>
-        <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-          <Menu theme="dark" mode="horizontal" selectedKeys={[localStorage.getItem("menuItem") === null ? "1" : localStorage.getItem("menuItem")]} onSelect={this.changeMenuItem} style={{ lineHeight: '64px' }} >
-            <Menu.Item key="1"><Link to="/blog">学海无涯</Link></Menu.Item>
-            <Menu.Item key="2"><Link to="/diary">个人日记</Link></Menu.Item>
-            <Menu.Item key="3"><Link to="/about">关于我</Link></Menu.Item>
-          </Menu>
-        </Header>
-        <Content style={{ marginTop: 64 }}>
-          <BackTop />
-          {this.props.children}
-        </Content>
+        {isTop && !isMobile ? null : (
+          <SiderMenu
+            logo={logo}
+            theme={navTheme}
+            onCollapse={this.handleMenuCollapse}
+            menuData={menuData}
+            isMobile={isMobile}
+            {...this.props}
+          />
+        )}
+        <Layout
+          style={{
+            ...this.getLayoutStyle(),
+            minHeight: '100vh',
+          }}
+        >
+          <Header
+            menuData={menuData}
+            handleMenuCollapse={this.handleMenuCollapse}
+            logo={logo}
+            isMobile={isMobile}
+            {...this.props}
+          />
+          <Content className={styles.content} style={contentStyle}>
+            <Authorized authority={routerConfig} noMatch={<Exception403 />}>
+              {children}
+            </Authorized>
+            <BackTop />
+          </Content>
+          <Footer />
+        </Layout>
       </Layout>
+    );
+    return (
+      <React.Fragment>
+        <DocumentTitle title={this.getPageTitle(pathname, breadcrumbNameMap)}>
+          <ContainerQuery query={query}>
+            {params => (
+              <Context.Provider value={this.getContext()}>
+                <div className={classNames(params)}>{layout}</div>
+              </Context.Provider>
+            )}
+          </ContainerQuery>
+        </DocumentTitle>
+        {/* <Suspense fallback={<PageLoading />}><SettingDrawer /></Suspense> */}
+      </React.Fragment>
     );
   }
 }
 
-//connect参数之一,获取参数 , state为接受的参数
-const mapStateToProps = (state) => {
-  return {
-    global: state.global
-  }
-}
-export default connect(mapStateToProps)(BasicLayout)
+export default connect(({ global, setting, menu, user }) => ({
+  collapsed: global.collapsed,
+  layout: setting.layout,
+  menuData: menu.menuData,
+  breadcrumbNameMap: menu.breadcrumbNameMap,
+  ...setting, ...user
+}))(props => (
+  <Media query="(max-width: 599px)">
+    {isMobile => <BasicLayout {...props} isMobile={isMobile} />}
+  </Media>
+));
