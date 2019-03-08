@@ -7,6 +7,6 @@ RUN yarn
 
 COPY ./ ./
 
-EXPOSE 3001
+RUN npm run test:all
 
-CMD ["yarn", "start"]
+CMD ["npm", "run", "build"]

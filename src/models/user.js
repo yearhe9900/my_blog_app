@@ -5,10 +5,7 @@ export default {
 
   state: {
     list: [],
-    currentUser: {
-      name:"",
-      avatar:""
-    },
+    currentUser: {},
   },
 
   effects: {
