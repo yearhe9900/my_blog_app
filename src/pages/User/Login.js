@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { formatMessage, FormattedMessage } from 'umi/locale';
-// import Link from 'umi/link';
-// import { Checkbox, Alert, Icon } from 'antd';
-import { Checkbox, Alert } from 'antd';
+import Link from 'umi/link';
+import { Checkbox, Alert, Icon } from 'antd';
 import Login from '@/components/Login';
 import styles from './Login.less';
 
-// const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
-const { Tab, UserName, Password, Submit } = Login;
+const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
 
 @connect(({ login, loading }) => ({
   login,
@@ -42,17 +40,15 @@ class LoginPage extends Component {
     });
 
   handleSubmit = (err, values) => {
+    const { type } = this.state;
     if (!err) {
       const { dispatch } = this.props;
-      const formData = new FormData();
-      formData.append("grant_type","password");
-      formData.append("client_id","pwd.client");
-      formData.append("client_secret","secret");
-      formData.append("username",values.userName);
-      formData.append("password",values.password);
       dispatch({
         type: 'login/login',
-        payload: formData,
+        payload: {
+          ...values,
+          type,
+        },
       });
     }
   };
@@ -87,7 +83,7 @@ class LoginPage extends Component {
               this.renderMessage(formatMessage({ id: 'app.login.message-invalid-credentials' }))}
             <UserName
               name="userName"
-              placeholder={`${formatMessage({ id: 'app.login.userName' })}`}
+              placeholder={`${formatMessage({ id: 'app.login.userName' })}: admin or user`}
               rules={[
                 {
                   required: true,
@@ -97,17 +93,20 @@ class LoginPage extends Component {
             />
             <Password
               name="password"
-              placeholder={`${formatMessage({ id: 'app.login.password' })}`}
+              placeholder={`${formatMessage({ id: 'app.login.password' })}: ant.design`}
               rules={[
                 {
                   required: true,
                   message: formatMessage({ id: 'validation.password.required' }),
                 },
               ]}
-              onPressEnter={() => this.loginForm.validateFields(this.handleSubmit)}
+              onPressEnter={e => {
+                e.preventDefault();
+                this.loginForm.validateFields(this.handleSubmit);
+              }}
             />
           </Tab>
-          {/* <Tab key="mobile" tab={formatMessage({ id: 'app.login.tab-login-mobile' })}>
+          <Tab key="mobile" tab={formatMessage({ id: 'app.login.tab-login-mobile' })}>
             {login.status === 'error' &&
               login.type === 'mobile' &&
               !submitting &&
@@ -142,19 +141,19 @@ class LoginPage extends Component {
                 },
               ]}
             />
-          </Tab> */}
+          </Tab>
           <div>
             <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
               <FormattedMessage id="app.login.remember-me" />
             </Checkbox>
-            {/* <a style={{ float: 'right' }} href="">
+            <a style={{ float: 'right' }} href="">
               <FormattedMessage id="app.login.forgot-password" />
-            </a> */}
+            </a>
           </div>
           <Submit loading={submitting}>
             <FormattedMessage id="app.login.login" />
           </Submit>
-          {/* <div className={styles.other}>
+          <div className={styles.other}>
             <FormattedMessage id="app.login.sign-in-with" />
             <Icon type="alipay-circle" className={styles.icon} theme="outlined" />
             <Icon type="taobao-circle" className={styles.icon} theme="outlined" />
@@ -162,7 +161,7 @@ class LoginPage extends Component {
             <Link className={styles.register} to="/user/register">
               <FormattedMessage id="app.login.signup" />
             </Link>
-          </div> */}
+          </div>
         </Login>
       </div>
     );
