@@ -33,11 +33,11 @@ export async function addRule(params) {
   });
 }
 
-export async function updateRule(params = {}) {
-  return request(`/api/rule?${stringify(params.query)}`, {
+export async function updateRule(params) {
+  return request('/api/rule', {
     method: 'POST',
     body: {
-      ...params.body,
+      ...params,
       method: 'update',
     },
   });
@@ -58,8 +58,8 @@ export async function queryTags() {
   return request('/api/tags');
 }
 
-export async function queryBasicProfile(id) {
-  return request(`/api/profile/basic?id=${id}`);
+export async function queryBasicProfile() {
+  return request('/api/profile/basic');
 }
 
 export async function queryAdvancedProfile() {
@@ -103,8 +103,8 @@ export async function updateFakeList(params) {
   });
 }
 
-export async function fakeAccountLogin(params) {
-  return request('/api/login/account', {
+export async function accountLogin(params) {
+  return request('/connect/token', {
     method: 'POST',
     body: params,
   });
@@ -117,8 +117,8 @@ export async function fakeRegister(params) {
   });
 }
 
-export async function queryNotices(params = {}) {
-  return request(`/api/notices?${stringify(params)}`);
+export async function queryNotices() {
+  return request('/api/notices');
 }
 
 export async function getFakeCaptcha(mobile) {

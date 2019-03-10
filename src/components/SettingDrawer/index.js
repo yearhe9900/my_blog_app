@@ -6,7 +6,7 @@ import { connect } from 'dva';
 import omit from 'omit.js';
 import styles from './index.less';
 import ThemeColor from './ThemeColor';
-import BlockCheckbox from './BlockCheckbox';
+import BlockChecbox from './BlockChecbox';
 
 const { Option } = Select;
 
@@ -154,7 +154,7 @@ class SettingDrawer extends PureComponent {
       >
         <div className={styles.content}>
           <Body title={formatMessage({ id: 'app.setting.pagestyle' })}>
-            <BlockCheckbox
+            <BlockChecbox
               list={[
                 {
                   key: 'dark',
@@ -181,7 +181,7 @@ class SettingDrawer extends PureComponent {
           <Divider />
 
           <Body title={formatMessage({ id: 'app.setting.navigationmode' })}>
-            <BlockCheckbox
+            <BlockChecbox
               list={[
                 {
                   key: 'sidemenu',

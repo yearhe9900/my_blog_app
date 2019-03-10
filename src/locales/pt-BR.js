@@ -9,7 +9,6 @@ import result from './pt-BR/result';
 import settingDrawer from './pt-BR/settingDrawer';
 import settings from './pt-BR/settings';
 import pwa from './pt-BR/pwa';
-import component from './pt-BR/component';
 
 export default {
   'navBar.lang': 'Idiomas',
@@ -19,7 +18,7 @@ export default {
   'app.home.introduce': 'introduzir',
   'app.forms.basic.title': 'Basic form',
   'app.forms.basic.description':
-    'Páginas de formulário são usadas para coletar e verificar as informações dos usuários e formulários básicos são comuns nos cenários onde existem alguns formatos de informações.',
+    'Form pages are used to collect or verify information to users, and basic forms are common in scenarios where there are fewer data items.',
   ...analysis,
   ...exception,
   ...form,
@@ -31,5 +30,4 @@ export default {
   ...settingDrawer,
   ...settings,
   ...pwa,
-  ...component,
 };

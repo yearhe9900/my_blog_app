@@ -10,4 +10,4 @@ export interface IAuthorizedRouteProps extends RouteProps {
 }
 export { authority };
 
-export default class AuthorizedRoute extends React.Component<IAuthorizedRouteProps, any> {}
+export class AuthorizedRoute extends React.Component<IAuthorizedRouteProps, any> {}

@@ -19,7 +19,7 @@ export default class EditableItem extends PureComponent {
   check = () => {
     this.setState({ editable: false });
     const { value } = this.state;
-    const { onChange } = this.props;
+    const { onChange } = this.state;
     if (onChange) {
       onChange(value);
     }

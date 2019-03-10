@@ -122,7 +122,14 @@ function postRule(req, res, u, b) {
       break;
   }
 
-  return getRule(req, res, u);
+  const result = {
+    list: tableListDataSource,
+    pagination: {
+      total: tableListDataSource.length,
+    },
+  };
+
+  return res.json(result);
 }
 
 export default {

@@ -4,7 +4,6 @@ import RightContent from '../GlobalHeader/RightContent';
 import BaseMenu from '../SiderMenu/BaseMenu';
 import { getFlatMenuKeys } from '../SiderMenu/SiderMenuUtils';
 import styles from './index.less';
-import { title } from '../../defaultSettings';
 
 export default class TopNavHeader extends PureComponent {
   state = {
@@ -33,7 +32,7 @@ export default class TopNavHeader extends PureComponent {
             <div className={styles.logo} key="logo" id="logo">
               <Link to="/">
                 <img src={logo} alt="logo" />
-                <h1>{title}</h1>
+                <h1>博客管理器</h1>
               </Link>
             </div>
             <div
