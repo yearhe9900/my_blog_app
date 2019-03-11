@@ -141,7 +141,7 @@ export default function request(url, option) {
         // @HACK
         /* eslint-disable no-underscore-dangle */
         window.g_app._store.dispatch({
-          type: 'login/logout',
+          type: '/blog',
         });
         return;
       }

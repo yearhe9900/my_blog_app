@@ -5,7 +5,7 @@ import { formatMessage } from 'umi/locale';
 
 const LinkToBlogList = () => (
   <Button type="primary">
-    <Link to="./blog-list">
+    <Link to="./blog">
       {formatMessage({ id: 'app.exception.backToBlogList' })}
     </Link>
   </Button>

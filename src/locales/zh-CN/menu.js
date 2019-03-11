@@ -8,6 +8,7 @@ export default {
   'menu.blog': '我的博客',
   'menu.blog.blogdetail': '博客详情',
   'menu.aboutme': '关于我',
+  'menu.blogdetail': '博客详情',
   'menu.form': '表单页',
   'menu.form.basicform': '基础表单',
   'menu.form.stepform': '分步表单',

@@ -1,6 +1,6 @@
 /* eslint-disable react/no-danger */
 import React, { Component } from 'react';
-import { Card, Tag, Divider, Button, Modal, Spin } from 'antd';
+import { Card, Tag, Divider, Modal, Spin } from 'antd';
 import { connect } from 'dva';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import 'highlight.js/styles/vs.css';
@@ -66,11 +66,6 @@ class BlogDetail extends Component {
     if (blogdetailmodel.id) {
       renderResult = (
         <div>
-          <div style={{ float: 'right', marginBottom: 10 }}>
-            <Button type="primary" onClick={this.saveMarkdown}>编辑</Button>
-            {blogdetailmodel.enabled ? <Button type="danger" style={{ marginLeft: 8 }} onClick={() => this.startUpOrProhibit(blogdetailmodel.id, false)}>禁用</Button> : <Button style={{ marginLeft: 8 }} onClick={() => this.startUpOrProhibit(blogdetailmodel.id, true)}>启用</Button>}
-          </div>
-          <Divider dashed={blogdetailmodel.dividerDashed} />
           <div align="center"><h1>{blogdetailmodel.title}</h1></div>
           <div>
             <span style={{ marginRight: 5 }}>标签:</span>
@@ -95,7 +90,7 @@ class BlogDetail extends Component {
     }
 
     return (
-      <PageHeaderWrapper title='博客详情'>
+      <PageHeaderWrapper>
         <Spin tip="Loading..." spinning={blogdetailmodel.loading}>
           <Card>
             {renderResult}

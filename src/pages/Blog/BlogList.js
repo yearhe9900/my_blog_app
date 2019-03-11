@@ -1,8 +1,9 @@
 import React from 'react';
-import { List, Icon, Card } from 'antd';
+import { List, Icon, Card, Tag } from 'antd';
 import { connect } from 'dva';
 import moment from 'moment';
 import 'moment/locale/zh-cn'
+import { Link } from 'dva/router';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 moment.locale('zh-cn');
@@ -10,24 +11,38 @@ moment.locale('zh-cn');
   blogmodel,
 }))
 
+
 class BlogList extends React.Component {
+
+  componentDidMount() {
+    this.reload();
+  }
+
+  reload() {
+    const { blogmodel, dispatch } = this.props;
+    dispatch({
+      type: 'blogmodel/getBlogs',
+      parms: { PageNo: blogmodel.pageNo, pageSize: blogmodel.pageSize }
+    });
+  }
+
+  reloadByPageNo(pageNo) {
+    const { blogmodel, dispatch } = this.props;
+    dispatch({
+      type: 'blogmodel/getBlogs',
+      parms: { PageNo: pageNo, pageSize: blogmodel.pageSize }
+    });
+  }
+
   render() {
-    const listData = [];
-    for (let i = 0; i < 23; i++) {
-      listData.push({
-        href: 'http://ant.design',
-        title: `ant design part ${i}`,
-        avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-        description: 'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-        content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-      });
-    }
+    const { blogmodel, dispatch } = this.props;
     const IconText = ({ type, text }) => (
       <span>
         <Icon type={type} style={{ marginRight: 8 }} />
         {text}
       </span>
     );
+
     return (
       <PageHeaderWrapper>
         <Card>
@@ -35,22 +50,28 @@ class BlogList extends React.Component {
             itemLayout="vertical"
             pagination={{
               onChange: (page) => {
-                console.log(page);
+                dispatch({
+                  type: 'blogmodel/changePageNo',
+                  parms: page
+                });
+                this.reloadByPageNo(page)
               },
-              pageSize: 4,
+              current:blogmodel.pageNo,
+              pageSize: blogmodel.pageSize,
+              total: blogmodel.total
             }}
-            dataSource={listData}
+            dataSource={blogmodel.bloglist}
             renderItem={item => (
               <List.Item
                 key={item.title}
-                actions={[ <IconText type="like-o" text="156" />]}
-                extra={<img width={272} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />}
+                actions={[<IconText type="like-o" text={item.commendation} />, <IconText type="clock-circle" text={moment(item.cdt).format('YYYY-MM-DD HH:mm:ss')} />]}
+                extra={<img width={272} alt="logo" src={item.logo} />}
               >
                 <List.Item.Meta
-                  title={<a href={item.href}>{item.title}</a>}
-                  description={item.description}
+                  title={<Link to={`blog-detail?id=${item.id}`} style={{ fontSize: 21, fontWeight: "bold" }}>{item.title}</Link>}
+                  description={item.tags.map((tag) => <Tag key={tag.key} color={tag.color}>{tag.name}</Tag>)}
                 />
-                {item.content}
+                {item.description}
               </List.Item>
             )}
           />

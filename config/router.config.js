@@ -4,20 +4,18 @@ export default [
     path: '/',
     component: '../layouts/BasicLayout',
     routes: [
-      { path: '/', redirect: '/blog/blog-list' },
+      { path: '/', redirect: '/blog' },
       // blog
       {
         path: '/blog',
         name: 'blog',
         component: './Blog/BlogList',
-        routes: [
-          {
-            path: '/blog/blog-detail',
-            name: 'blogdetail',
-            component: './Blog/BlogDetail',
-            hideInMenu: true,
-          }
-        ],
+      },
+      {
+        path: '/blog-detail',
+        name: 'blogdetail',
+        component: './Blog/BlogDetail',
+        hideInMenu: true,
       },
       // classification
       {
