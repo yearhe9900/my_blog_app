@@ -1,9 +1,9 @@
 module.exports = {
   "navTheme": "dark",
-  "primaryColor": "#2F54EB",
+  "primaryColor": "#1890FF",
   "layout": "topmenu",
   "contentWidth": "Fixed",
-  "fixedHeader": true,
+  "fixedHeader": false,
   "autoHideHeader": false,
   "fixSiderbar": false,
   "menu": {
@@ -13,4 +13,4 @@ module.exports = {
   "pwa": true,
   "iconfontUrl": "",
   "collapse": true
-}
+};

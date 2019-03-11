@@ -2,12 +2,9 @@
 
 # dependencies
 **/node_modules
-# roadhog-api-doc ignore
 /src/utils/request-temp.js
-_roadhog-api-doc
 
 # production
-/dist
 /.vscode
 
 # misc
@@ -21,6 +18,7 @@ yarn.lock
 package-lock.json
 *bak
 .vscode
+dist
 
 # visual studio code
 .history
@@ -36,3 +34,7 @@ functions/mock
 # screenshot
 screenshot
 .firebase
+*.cmd
+*.cmd
+.temp/ant-design-pro.less
+.temp/ant-design-pro.less
