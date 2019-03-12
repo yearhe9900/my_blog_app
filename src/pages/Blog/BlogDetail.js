@@ -33,6 +33,11 @@ class BlogDetail extends Component {
     });
   }
 
+  goback = () => {
+    const { history } = this.props;
+    history.goBack();
+  }
+
   render() {
     const { blogdetailmodel } = this.props;
     const input = blogdetailmodel.content;
@@ -42,7 +47,7 @@ class BlogDetail extends Component {
     if (blogdetailmodel.id) {
       renderResult = (
         <div>
-          <Button type="dashed" icon="left" onClick={this.setLike} />
+          <Button type="dashed" icon="left" onClick={this.goback} />
           <Divider dashed={blogdetailmodel.dividerDashed} />
           <div align="center"><h1>{blogdetailmodel.title}</h1></div>
           <div>
