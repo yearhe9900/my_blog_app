@@ -1,6 +1,6 @@
 /* eslint-disable react/no-danger */
 import React, { Component } from 'react';
-import { Card, Tag, Divider, Spin, Button } from 'antd';
+import { Card, Tag, Divider, Spin, Button, message } from 'antd';
 import { connect } from 'dva';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import 'highlight.js/styles/vs.css';
@@ -10,6 +10,7 @@ import moment from 'moment';
 import 'moment/locale/zh-cn'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import marked from '@/components/Marked';
+
 // import Link from 'umi/link';
 
 @connect(({ blogdetailmodel, blogmodel }) => ({
@@ -27,10 +28,27 @@ class BlogDetail extends Component {
 
   setLike = () => {
     const { history, dispatch } = this.props;
-    dispatch({
-      type: 'blogdetailmodel/setLike',
-      parms: { ID: history.location.query.id }
-    });
+    const blogId =history.location.query.id;
+    const key = `setLike_${blogId.toString()}`;
+    if (localStorage.getItem(key)) {
+      const time = localStorage.getItem(key);
+      if (new Date().getTime() - time > 600000) {
+        localStorage.setItem(key, new Date().getTime());
+        dispatch({
+          type: 'blogdetailmodel/setLike',
+          parms: { ID: blogId }
+        });
+      }
+      else{
+        message.info("您已点过赞");
+      }
+    } else {
+      localStorage.setItem(key, new Date().getTime());
+      dispatch({
+        type: 'blogdetailmodel/setLike',
+        parms: { ID: blogId }
+      });
+    }
   }
 
   goback = () => {
