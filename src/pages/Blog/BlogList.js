@@ -13,7 +13,6 @@ moment.locale('zh-cn');
 
 
 class BlogList extends React.Component {
-
   componentDidMount() {
     this.reload();
   }
@@ -56,7 +55,7 @@ class BlogList extends React.Component {
                 });
                 this.reloadByPageNo(page)
               },
-              current:blogmodel.pageNo,
+              current: blogmodel.pageNo,
               pageSize: blogmodel.pageSize,
               total: blogmodel.total
             }}
@@ -65,7 +64,6 @@ class BlogList extends React.Component {
               <List.Item
                 key={item.title}
                 actions={[<IconText type="like-o" text={item.commendation} />, <IconText type="clock-circle" text={moment(item.cdt).format('YYYY-MM-DD HH:mm:ss')} />]}
-                extra={<img width={272} alt="logo" src={item.logo} />}
               >
                 <List.Item.Meta
                   title={<Link to={`blog-detail?id=${item.id}`} style={{ fontSize: 21, fontWeight: "bold" }}>{item.title}</Link>}

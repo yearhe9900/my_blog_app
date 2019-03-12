@@ -1,4 +1,4 @@
-import { getBlogDetailById } from '@/services/blog';
+import { getBlogDetailById ,setBlogLike} from '@/services/blog';
 import { message } from 'antd';
 
 export default {
@@ -18,6 +18,18 @@ export default {
     },
 
     effects: {
+        *setLike({ parms }, { call, put }) {
+            const response = yield call(setBlogLike, parms);
+            if (response && response.code === "200") {
+                yield put({
+                    type: 'saveBlogCommendation',
+                    payload: response.data,
+                });
+            }
+            else if (response && response.code !== "200") {
+                message.error(response.msg);
+            }
+        },
         *getBlogById({ parms }, { call, put }) {
             yield put({
                 type: 'saveLoading',
@@ -45,6 +57,12 @@ export default {
             return {
                 ...state,
                 loading: action.payload,
+            };
+        },
+        saveBlogCommendation(state, action) {
+            return {
+                ...state,
+                commendation: action.payload,
             };
         },
         saveBlogDetail(state, action) {

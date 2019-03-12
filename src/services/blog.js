@@ -13,3 +13,10 @@ export async function getBlogDetailById(params) {
         body: params,
     });
 }
+
+export async function setBlogLike(params) {
+    return request('/api/values/SetLike', {
+        method: 'POST',
+        body: params,
+    });
+}
