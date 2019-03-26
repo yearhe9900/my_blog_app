@@ -8,10 +8,17 @@ export default {
     loading: true,
     total: 1,
     pageNo: 1,
-    pageSize: 4
+    pageSize: 4,
+    drawerShow:false
   },
 
   effects: {
+    *changeDrawerShow({ parms }, { put }) {
+      yield put({
+        type: 'saveDrawerShow',
+        payload: parms
+      });
+    },
     *changePageNo({ parms }, { put }) {
       yield put({
         type: 'savePageNo',
@@ -40,6 +47,12 @@ export default {
     }
   },
   reducers: {
+    saveDrawerShow(state, action) {
+      return {
+        ...state,
+        drawerShow: action.payload,
+      };
+    },
     saveLoading(state, action) {
       return {
         ...state,

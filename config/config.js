@@ -85,7 +85,7 @@ export default {
 
   proxy: {
     '/api': {
-      target: 'http://localhost:52442/',
+      target: 'http://118.24.44.181:3002/',
       changeOrigin: true,
     },
   },

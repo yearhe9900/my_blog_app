@@ -179,7 +179,7 @@ class BasicLayout extends React.PureComponent {
           />
           <Content className={styles.content} style={contentStyle}>
             {children}
-            <BackTop />
+            <BackTop visibilityHeight={300} />
           </Content>
           <Footer />
         </Layout>

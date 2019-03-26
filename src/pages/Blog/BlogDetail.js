@@ -1,6 +1,6 @@
 /* eslint-disable react/no-danger */
 import React, { Component } from 'react';
-import { Card, Tag, Divider, Spin, Button, message } from 'antd';
+import { Card, Tag, Divider, Spin, Button, message,Affix } from 'antd';
 import { connect } from 'dva';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import 'highlight.js/styles/vs.css';
@@ -28,7 +28,7 @@ class BlogDetail extends Component {
 
   setLike = () => {
     const { history, dispatch } = this.props;
-    const blogId =history.location.query.id;
+    const blogId = history.location.query.id;
     const key = `setLike_${blogId.toString()}`;
     if (localStorage.getItem(key)) {
       const time = localStorage.getItem(key);
@@ -39,7 +39,7 @@ class BlogDetail extends Component {
           parms: { ID: blogId }
         });
       }
-      else{
+      else {
         message.info("您已点过赞");
       }
     } else {
@@ -65,8 +65,9 @@ class BlogDetail extends Component {
     if (blogdetailmodel.id) {
       renderResult = (
         <div>
-          <Button type="dashed" icon="left" onClick={this.goback} />
-          <Divider dashed={blogdetailmodel.dividerDashed} />
+          <Affix offsetTop={20}>
+            <Button type="primary" shape="circle" icon="left" ghost onClick={this.goback} />
+          </Affix>
           <div align="center"><h1>{blogdetailmodel.title}</h1></div>
           <div>
             <span style={{ marginRight: 5 }}>标签:</span>
