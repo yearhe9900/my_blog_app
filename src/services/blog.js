@@ -20,3 +20,9 @@ export async function setBlogLike(params) {
         body: params,
     });
 }
+
+export async function getEnabledClassificationList() {
+  return request('/api/values/GetEnabledClassificationList', {
+    method: 'POST',
+  });
+}

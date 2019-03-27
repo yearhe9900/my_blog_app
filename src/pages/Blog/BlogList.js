@@ -13,23 +13,34 @@ moment.locale('zh-cn');
 
 class BlogList extends React.Component {
   componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'blogmodel/getTags'
+    });
     this.reload();
   }
 
   drawerShow = () => {
-    // const { dispatch } = this.props;
-    // dispatch({
-    //   type: 'blogmodel/changeDrawerShow',
-    //   parms: isShow
-    // });
-    console.log(1)
+    const { blogmodel, dispatch } = this.props;
+    dispatch({
+      type: 'blogmodel/changeDrawerShow',
+      parms: !blogmodel.drawerShow
+    });
+  }
+
+  changeClassificationId=(id)=>{
+    const {blogmodel, dispatch } = this.props;
+    dispatch({
+      type: 'blogmodel/changeClassificationId',
+      parms: { PageNo: 1, pageSize: blogmodel.pageSize, classificationId: id }
+    });
   }
 
   reload() {
     const { blogmodel, dispatch } = this.props;
     dispatch({
       type: 'blogmodel/getBlogs',
-      parms: { PageNo: blogmodel.pageNo, pageSize: blogmodel.pageSize }
+      parms: { PageNo: blogmodel.pageNo, pageSize: blogmodel.pageSize, classificationId: blogmodel.classificationId }
     });
   }
 
@@ -37,7 +48,7 @@ class BlogList extends React.Component {
     const { blogmodel, dispatch } = this.props;
     dispatch({
       type: 'blogmodel/getBlogs',
-      parms: { PageNo: pageNo, pageSize: blogmodel.pageSize }
+      parms: { PageNo: pageNo, pageSize: blogmodel.pageSize, classificationId: blogmodel.classificationId }
     });
   }
 
@@ -86,15 +97,15 @@ class BlogList extends React.Component {
       <PageHeaderWrapper>
         <Card>
           <Drawer
-            title="Basic Drawer"
+            title="筛选框"
             placement="right"
-            closable={false}
-            onClose={this.drawerShow(false)}
+            closable
+            onClose={this.drawerShow}
+            width={280}
             visible={blogmodel.drawerShow}
           >
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
+            <Tag onClick={()=>this.changeClassificationId("")}>全部</Tag>
+            {blogmodel.tags.map((tag) => <Tag key={tag.key} style={{ marginBottom: 8 }} color={tag.color} onClick={()=>this.changeClassificationId(tag.id)}>{tag.name}</Tag>)}
           </Drawer>{renderResult}
         </Card>
       </PageHeaderWrapper>
